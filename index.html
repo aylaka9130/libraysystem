@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">📚 Menu</div>
+        <ul class="sidebar-menu">
+            <li><button onclick="newPage()"><span>➕</span> New Page</button></li>
+            <li><button onclick="saveData()"><span>💾</span> Save</button></li>
+            <li><button onclick="saveAsData()"><span>📝</span> Save As</button></li>
+            <li><button onclick="loadData()"><span>📂</span> Open</button></li>
+            <li><button onclick="printPage()"><span>🖨️</span> Print</button></li>
+            <li><button onclick="downloadData()"><span>⬇️</span> Download</button></li>
+            <li><button onclick="deleteSelected()"><span>🗑️</span> Delete Selected</button></li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="menu-icon" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <h1>Library Management System</h1>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-box" placeholder="Search books..." onkeyup="searchBooks()">
+            </div>
+            <div class="status-badge disconnected" id="statusBadge">
+                <span id="statusText">Connecting...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Search -->
+    <div class="mobile-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="mobileSearchInput" class="search-box" placeholder="Search books..." onkeyup="searchBooksMobile()">
+    </div>
+
+    <!-- Message Toast -->
+    <div id="message" class="message"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page 1: Add Book Form -->
+        <div class="page-1" id="page1">
+            <div class="form-card">
+                <h2 id="formTitle">Add New Book</h2>
+                <div class="form-grid">
+                    <input type="text" id="signNumber" class="form-input" placeholder="Sign Number">
+                    <input type="text" id="bookName" class="form-input" placeholder="Book Name">
+                    <input type="text" id="author" class="form-input" placeholder="Author">
+                    <input type="text" id="publisher" class="form-input" placeholder="Publisher">
+                    <input type="text" id="category" class="form-input" placeholder="Category">
+                    <input type="text" id="rackNo" class="form-input" placeholder="Rack No">
+                </div>
+                <div class="btn-group">
+                    <button class="add-btn" id="addBtn" onclick="addBook()">
+                        <span>➕</span> Add Book
+                    </button>
+                    <button class="add-btn update-btn" id="updateBtn" onclick="updateBook()">
+                        <span>✏️</span> Update Book
+                    </button>
+                    <button class="add-btn cancel-btn" id="cancelBtn" onclick="cancelEdit()">
+                        <span>✖</span> Cancel
+                    </button>
+                </div>
+                <br><br>
+                <div style="text-align: center;">
+                    <button class="add-btn" onclick="goToPage2()" style="padding: 14px 50px;">
+                        <span>📚</span> View All Books
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Books Table -->
+        <div class="page-2" id="page2">
+            <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <button class="add-btn" onclick="goToPage1()">
+                    <span>⬅</span> Back
+                </button>
+                <div style="flex: 1; max-width: 500px; position: relative;">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="tableSearchInput" class="search-box" placeholder="Search books..." onkeyup="searchBooksTable()" style="width: 100%;">
+                </div>
+                <div class="btn-group">
+                    <button class="add-btn modify-mode-btn" onclick="enableModifyMode()">
+                        <span>✏️</span> Modify
+                    </button>
+                    <button class="add-btn delete-mode-btn" onclick="deleteSelectedBooks()">
+                        <span>🗑️</span> Delete
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                                <th class="sortable" onclick="sortTable('id')">S.No</th>
+                                <th class="sortable" onclick="sortTable('sign_number')">Sign Number</th>
+                                <th class="sortable" onclick="sortTable('book_name')">Book Name</th>
+                                <th class="sortable" onclick="sortTable('author')">Author</th>
+                                <th class="sortable" onclick="sortTable('publisher')">Publisher</th>
+                                <th class="sortable" onclick="sortTable('category')">Category</th>
+                                <th class="sortable" onclick="sortTable('rack_no')">Rack No</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booksTableBody">
+                            <tr><td colspan="8" class="no-data">📚 Loading books...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <div class="pagination-info" id="pageInfo">Showing 0 of 0 books</div>
+                    <div class="pagination-btns">
+                        <button class="page-btn" id="prevBtn" onclick="prevPage()">⬅ Previous</button>
+                        <button class="page-btn" id="nextBtn" onclick="nextPage()">Next ➡</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/script.js"></script>
+</body>
+</html>
